@@ -30,6 +30,9 @@ class NfeQuery():
         dictionary_table = [dict(zip(table_columns, row)) for row in result]
         
         return dictionary_table
+    
+
+    
 
 
 if __name__ == '__main__':
