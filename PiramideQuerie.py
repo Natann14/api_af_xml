@@ -1,13 +1,21 @@
-import cx_Oracle
+#import cx_Oracle
+import pyodbc
 
 
 class AssociateDocs():
 
     def __init__(self) -> None:
-        self.conexao = cx_Oracle.connect(
-            user='PIRAMIDE', 
-            password='PIRAMIDE', 
-            dsn='192.168.0.241/TESTE.intranet.copergas.com.br')
+        # self.conexao = cx_Oracle.connect(
+        #     user='PIRAMIDE', 
+        #     password='PIRAMIDE', 
+        #     dsn='192.168.0.241/TESTE.intranet.copergas.com.br')
+        self.conexao = (
+            "Driver={SQL Server};"
+            "Server=SRVCOPER068\SQLEXPRESS;"
+            "Database=FISCAL_DEFENDER;"
+            "UID=sa;"
+            "PWD=Fiscal@2020;"
+        )
         
     
     def find_af(self, chave_acesso):

@@ -1,10 +1,10 @@
 from fastapi import FastAPI, status, Depends, HTTPException
-from FastAPI.SqlServerQueries import NfeQuery
+from SqlServerQueries import NfeQuery
 from fastapi.responses import JSONResponse
 #import models
 #from database import engine, SessionLocal
-from typing import Annotated
-from sqlalchemy.orm import Session
+#from typing import Annotated
+#from sqlalchemy.orm import Session
 
 
 # uvicorn FastAPI.main:app --host 127.0.0.1 --port 8080 -> alterar porta

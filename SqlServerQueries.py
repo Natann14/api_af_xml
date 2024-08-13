@@ -9,10 +9,10 @@ class NfeQuery():
 
         self.dados_conexao = (
             "Driver={SQL Server};"
-            "Server=SRVCOPER068\SQLEXPRESS;"
-            "Database=FISCAL_DEFENDER;"
+            "Server=localhost;"
+            "Database=master;"
             "UID=sa;"
-            "PWD=Fiscal@2020;"
+            "PWD=admin123#;"
         )
 
     def execute_sql_query(self):
@@ -20,7 +20,7 @@ class NfeQuery():
         conexao = pyodbc.connect(self.dados_conexao)
         cursor = conexao.cursor()
 
-        SQL_INSTRUCION = """ SELECT * FROM CONSULTA_NFE """
+        SQL_INSTRUCION = """ SELECT id, nome, CONVERT(varchar(50), preco) AS preco_formatado, quantidade FROM produtos """
 
         cursor.execute(SQL_INSTRUCION)
         result = cursor.fetchall()
