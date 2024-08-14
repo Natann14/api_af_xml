@@ -1,11 +1,9 @@
 from SqlServerQueries import ExecuteQuerie
-#import pyodbc
 
 class DbData(ExecuteQuerie):
     
     def __init__(self) -> None:
         super().__init__()
-        #self.instruction = ExecuteQuerie()
     
     def get_data_nf(self):
         

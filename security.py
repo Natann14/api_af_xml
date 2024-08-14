@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from jose import JWTError, jwt
+from jose import jwt
 from passlib.context import CryptContext
 from SqlServerQueries import ExecuteQuerie
 
@@ -9,7 +9,6 @@ class UserValidator(ExecuteQuerie):
     
     def __init__(self) -> None:
         super().__init__()
-        #self.instruction = ExecuteQuerie()
         self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
         self.SECRET_KEY = "af0c193d49f2fbb2af61d926048503462657f05a1d4904d81d5f0a01abca04b9"
         self.ALGORITHM = "HS256"
@@ -17,38 +16,22 @@ class UserValidator(ExecuteQuerie):
     
     
     def get_user(self, username):
-        
-        # conexao = pyodbc.connect(self.dados_conexao)
-        # cursor = conexao.cursor()
 
         SQL_INSTRUCION = f""" SELECT usuario FROM usuarios WHERE usuario = '{username}' """
         result = self.execute_sql_query_security(SQL_INSTRUCION)
-
-        # cursor.execute(SQL_INSTRUCION)
-        # result = cursor.fetchall()
-        # conexao.close()
         
         if len(result) == 0:
             return False
         
         user = result[0][0]
         return user
-        #return True
 
     
-    
     def verify_password(self, password, username):
-        
-        # conexao = pyodbc.connect(self.dados_conexao)
-        # cursor = conexao.cursor()
 
         SQL_INSTRUCION = f""" SELECT senha FROM usuarios WHERE usuario = '{username}' """
         result = self.execute_sql_query_security(SQL_INSTRUCION)
-        # cursor.execute(SQL_INSTRUCION)
-        # result = cursor.fetchall()
-        # conexao.close()
 
-        
         if len(result) == 0:
             return False
         

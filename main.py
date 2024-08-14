@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 
 
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from jose import JWTError, jwt
+from jose import jwt
 from datetime import timedelta
 from typing import Annotated
 
