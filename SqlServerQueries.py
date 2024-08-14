@@ -44,7 +44,7 @@ class NfeQuery():
         conexao = pyodbc.connect(self.dados_conexao)
         cursor = conexao.cursor()
 
-        SQL_INSTRUCION = f""" SELECT * FROM usuarios WHERE usuario = '{username}' """
+        SQL_INSTRUCION = f""" SELECT usuario FROM usuarios WHERE usuario = '{username}' """
 
         cursor.execute(SQL_INSTRUCION)
         result = cursor.fetchall()
@@ -53,7 +53,8 @@ class NfeQuery():
         if len(result) == 0:
             return False
         
-        return True
+        return result[0][0]
+        #return True
 
     
     
@@ -75,6 +76,7 @@ class NfeQuery():
             return False
         
         db_password = result[0][0].replace(" ", "")
+        
         try:
             return self.pwd_context.verify(password, db_password)
         except:
@@ -101,7 +103,7 @@ class NfeQuery():
             return False
         if not self.verify_password(password, username):
             return False
-        print('Usuariooooooo: ', user)
+        
         return user
     
 
