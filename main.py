@@ -4,7 +4,7 @@ from models import User, Token, TokenData
 
 
 from fastapi import FastAPI, status, Depends, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, HTMLResponse
 
 
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -90,3 +90,8 @@ def get_nfe(token: Annotated[str, Depends(get_current_user)]):
     data = get_data.get_data_nf()
     headers = {"Content-Type": "application/json; charset=utf-8"}
     return JSONResponse(content=data, headers=headers, status_code=200)
+
+
+@app.get("/")
+def get_nfe():
+    return "Bem vindo"
