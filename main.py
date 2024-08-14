@@ -31,7 +31,6 @@ get_data = DbData()
 
 @app.post("/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    #obj = NfeQuery()
     user = validator.authenticate_user(form_data.username, form_data.password)
     
     if not user:
@@ -63,7 +62,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         if username is None:
             raise credentials_exception
         token_data = TokenData(username=username)
-    except: #InvalidTokenError:
+    except:
         raise credentials_exception
     user = validator.get_user(username=token_data.username)
     #if user is None:
@@ -88,7 +87,6 @@ async def read_users_me(
 
 @app.get("/getData")
 def get_nfe(token: Annotated[str, Depends(get_current_user)]):
-    
     data = get_data.get_data_nf()
     headers = {"Content-Type": "application/json; charset=utf-8"}
     return JSONResponse(content=data, headers=headers, status_code=200)
