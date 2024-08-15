@@ -76,7 +76,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 
 
 @app.get("/getData")
-def get_nfe(token: Annotated[str, Depends(get_current_user)]):
+def get_nfe():#token: Annotated[str, Depends(get_current_user)]):
     data = get_data.get_data_nf()
     headers = {"Content-Type": "application/json; charset=utf-8"}
     return JSONResponse(content=data, headers=headers, status_code=200)
