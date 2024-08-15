@@ -16,7 +16,6 @@ class UserValidator(ExecuteQuerie):
     
     
     def get_user(self, username):
-
         SQL_INSTRUCION = f""" SELECT usuario FROM usuarios WHERE usuario = '{username}' """
         result = self.execute_sql_query_security(SQL_INSTRUCION)
         
@@ -28,7 +27,6 @@ class UserValidator(ExecuteQuerie):
 
     
     def verify_password(self, password, username):
-
         SQL_INSTRUCION = f""" SELECT senha FROM usuarios WHERE usuario = '{username}' """
         result = self.execute_sql_query_security(SQL_INSTRUCION)
 
@@ -36,7 +34,6 @@ class UserValidator(ExecuteQuerie):
             return False
         
         db_password = result[0][0].replace(" ", "")
-        
         try:
             return self.pwd_context.verify(password, db_password)
         except:
@@ -50,17 +47,14 @@ class UserValidator(ExecuteQuerie):
         else:
             expire = datetime.utcnow() + timedelta(minutes=15)
         to_encode.update({"exp": expire})
-        encoded_jwt = jwt.encode(to_encode, self.SECRET_KEY, algorithm=self.ALGORITHM)
-        
+        encoded_jwt = jwt.encode(to_encode, self.SECRET_KEY, algorithm=self.ALGORITHM)    
         return encoded_jwt
     
     
     def authenticate_user(self, username: str, password: str):
-        
         user = self.get_user(username)
         if not user:
             return False
         if not self.verify_password(password, username):
             return False
-        
         return user

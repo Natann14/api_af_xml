@@ -1,21 +1,13 @@
 from security import UserValidator
 from nfdata import DbData
 from models import User, Token, TokenData
-
-
 from fastapi import FastAPI, status, Depends, HTTPException
-from fastapi.responses import JSONResponse, HTMLResponse
-
-
+from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt
 from datetime import timedelta
 from typing import Annotated
 
-
-# uvicorn FastAPI.main:app --host 127.0.0.1 --port 8080 -> alterar porta
-# 192.168.101.217
-# 45.6.93.66 -> local
 
 app = FastAPI()
 
@@ -26,26 +18,6 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 validator = UserValidator()
 # Dependencia da clase que faz a query dos dados no banco
 get_data = DbData()
-
-
-
-@app.post("/token", response_model=Token)
-async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = validator.authenticate_user(form_data.username, form_data.password)
-    
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Usuário ou Senha Incorretos",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    
-    access_token_expires = timedelta(minutes=validator.ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = validator.create_access_token(
-        data={"sub": form_data.username}, expires_delta=access_token_expires
-    )
-    return {"access_token": access_token, "token_type": "bearer"}
-
 
 
 # Faz a verificação se o usuario esta com o token para acesso aos endpoints
@@ -83,6 +55,24 @@ async def read_users_me(
 ):
     return JSONResponse(content={"current user": current_user})
 
+
+
+@app.post("/token", response_model=Token)
+async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = validator.authenticate_user(form_data.username, form_data.password)
+    
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Usuário ou Senha Incorretos",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    access_token_expires = timedelta(minutes=validator.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = validator.create_access_token(
+        data={"sub": form_data.username}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
 
 
 @app.get("/getData")
