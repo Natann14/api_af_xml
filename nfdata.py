@@ -1,4 +1,4 @@
-from SqlServerQueries import ExecuteQuerie
+from api_af_xml.SqlServerQueries import ExecuteQuerie
 
 class DbData(ExecuteQuerie):
     
@@ -7,5 +7,5 @@ class DbData(ExecuteQuerie):
     
     def get_data_nf(self):
         
-        SQL_INSTRUCION = """ SELECT id, nome, CONVERT(varchar(50), preco) AS preco_formatado, quantidade FROM produtos """
+        SQL_INSTRUCION = """ SELECT * FROM [ROBOTESTE].[PA000G].[tbl_SubFluxos] """
         return self.execute_sql_query_data(SQL_INSTRUCION)

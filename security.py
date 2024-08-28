@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from jose import jwt
 from passlib.context import CryptContext
-from SqlServerQueries import ExecuteQuerie
+from api_af_xml.SqlServerQueries import ExecuteQuerie
 
 
 class UserValidator(ExecuteQuerie):
@@ -16,7 +16,7 @@ class UserValidator(ExecuteQuerie):
     
     
     def get_user(self, username):
-        SQL_INSTRUCION = f""" SELECT usuario FROM usuarios WHERE usuario = '{username}' """
+        SQL_INSTRUCION = f""" SELECT Usuario FROM CONFIG.tbl_Credenciais WHERE Usuario = '{username}' AND Ambiente = 'P' """
         result = self.execute_sql_query_security(SQL_INSTRUCION)
         
         if len(result) == 0:
@@ -27,7 +27,7 @@ class UserValidator(ExecuteQuerie):
 
     
     def verify_password(self, password, username):
-        SQL_INSTRUCION = f""" SELECT senha FROM usuarios WHERE usuario = '{username}' """
+        SQL_INSTRUCION = f""" SELECT Senha FROM CONFIG.tbl_Credenciais WHERE Usuario = '{username}' AND Ambiente = 'P' """
         result = self.execute_sql_query_security(SQL_INSTRUCION)
 
         if len(result) == 0:

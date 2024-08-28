@@ -1,6 +1,6 @@
-from security import UserValidator
-from nfdata import DbData
-from models import User, Token, TokenData
+from api_af_xml.security import UserValidator
+from api_af_xml.nfdata import DbData
+from api_af_xml.models import User, Token, TokenData
 from fastapi import FastAPI, status, Depends, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm

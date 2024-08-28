@@ -5,10 +5,10 @@ class ExecuteQuerie():
     def __init__(self) -> None:
         self.dados_conexao = (
             "Driver={SQL Server};"
-            "Server=localhost;"
-            "Database=master;"
+            "Server=localhost\MSSQLSERVER;"
+            "Database=ROBOTESTE;"
             "UID=sa;"
-            "PWD=admin123#;"
+            "PWD=robo2024#123;"
         )
         
 
