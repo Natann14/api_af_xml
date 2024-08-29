@@ -83,5 +83,5 @@ def get_nfe(token: Annotated[str, Depends(get_current_user)]):
 
 
 @app.get("/", include_in_schema=False)
-async def redirect_to_docs():
+def redirect():
     return RedirectResponse(url="/docs")
