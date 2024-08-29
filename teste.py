@@ -1,20 +1,21 @@
 import pyodbc
 
-dados_conexao = (
-            "Driver={SQL Server};"
-            "Server=localhost"
-            "Database=ROBOTESTE;"
-            "UID=sa;"
-            "PWD=robo2024#123;"
-        )
-
 # dados_conexao = (
 #             "Driver={SQL Server};"
-#             "Server=SRVCOPER068\SQLEXPRESS;"
-#             "Database=FISCAL_DEFENDER;"
+#             "Server=(local)"
+#             "Database=ROBOTESTE;"
 #             "UID=sa;"
-#             "PWD=Fiscal@2020;"
+#             "PWD=Admin1234567#;"
+#             "integrated security=true"
 #         )
+
+dados_conexao = (
+            "Driver={SQL Server};"
+            "Server=SRVCOPER068\SQLEXPRESS;"
+            "Database=FISCAL_DEFENDER;"
+            "UID=sa;"
+            "PWD=Fiscal@2020;"
+        )
 
 
 conexao = pyodbc.connect(dados_conexao)
