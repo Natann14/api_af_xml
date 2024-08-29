@@ -1,10 +1,10 @@
 from datetime import datetime, timedelta
 from jose import jwt
 from passlib.context import CryptContext
-from api_af_xml.SqlServerQueries import ExecuteQuerie
+from api_af_xml.SqlServerQueries import ExecuteSqlServer
 
 
-class UserValidator(ExecuteQuerie):
+class UserValidator(ExecuteSqlServer):
     
     
     def __init__(self) -> None:
@@ -16,23 +16,21 @@ class UserValidator(ExecuteQuerie):
     
     
     def get_user(self, username):
-        SQL_INSTRUCION = f""" SELECT Usuario FROM CONFIG.tbl_Credenciais WHERE Usuario = '{username}' AND Ambiente = 'P' """
+        SQL_INSTRUCION = f""" SELECT Usuario FROM CONFIG.tbl_Credenciais WHERE Usuario = '{username}' AND Ambiente = 'H' """
         result = self.execute_sql_query_security(SQL_INSTRUCION)
         
         if len(result) == 0:
             return False
-        
         user = result[0][0]
         return user
 
     
     def verify_password(self, password, username):
-        SQL_INSTRUCION = f""" SELECT Senha FROM CONFIG.tbl_Credenciais WHERE Usuario = '{username}' AND Ambiente = 'P' """
+        SQL_INSTRUCION = f""" SELECT Senha FROM CONFIG.tbl_Credenciais WHERE Usuario = '{username}' AND Ambiente = 'H' """
         result = self.execute_sql_query_security(SQL_INSTRUCION)
 
         if len(result) == 0:
             return False
-        
         db_password = result[0][0].replace(" ", "")
         try:
             return self.pwd_context.verify(password, db_password)

@@ -1,14 +1,14 @@
 import pyodbc
 
-class ExecuteQuerie():
+class ExecuteSqlServer():
 
     def __init__(self) -> None:
         self.dados_conexao = (
             "Driver={SQL Server};"
-            "Server=localhost\MSSQLSERVER;"
+            "Server=localhost;"
             "Database=ROBOTESTE;"
             "UID=sa;"
-            "PWD=robo2024#123;"
+            "PWD=Admin1234567#"
         )
         
 

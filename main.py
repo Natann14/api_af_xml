@@ -2,7 +2,7 @@ from api_af_xml.security import UserValidator
 from api_af_xml.nfdata import DbData
 from api_af_xml.models import User, Token, TokenData
 from fastapi import FastAPI, status, Depends, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import jwt
 from datetime import timedelta
@@ -76,12 +76,12 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 
 
 @app.get("/getData")
-def get_nfe():#token: Annotated[str, Depends(get_current_user)]):
+def get_nfe(token: Annotated[str, Depends(get_current_user)]):
     data = get_data.get_data_nf()
     headers = {"Content-Type": "application/json; charset=utf-8"}
     return JSONResponse(content=data, headers=headers, status_code=200)
 
 
-@app.get("/")
-def get_nfe():
-    return "Bem vindo"
+@app.get("/", include_in_schema=False)
+async def redirect_to_docs():
+    return RedirectResponse(url="/docs")
