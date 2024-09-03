@@ -9,6 +9,13 @@ class UserValidator(ExecuteSqlServer):
     
     def __init__(self) -> None:
         super().__init__()
+        self.dados_conexao = (
+            "Driver={SQL Server};"
+            "Server=localhost;"
+            "Database=ROBOTESTE;"
+            "UID=sa;"
+            "PWD=Admin1234567#"
+        )
         self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
         self.SECRET_KEY = "af0c193d49f2fbb2af61d926048503462657f05a1d4904d81d5f0a01abca04b9"
         self.ALGORITHM = "HS256"

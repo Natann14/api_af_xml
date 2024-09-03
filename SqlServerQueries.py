@@ -3,13 +3,7 @@ import pyodbc
 class ExecuteSqlServer():
 
     def __init__(self) -> None:
-        self.dados_conexao = (
-            "Driver={SQL Server};"
-            "Server=localhost;"
-            "Database=ROBOTESTE;"
-            "UID=sa;"
-            "PWD=Admin1234567#"
-        )
+        self.dados_conexao = None
         
 
     def execute_sql_query_security(self, sql):
