@@ -1,6 +1,8 @@
 from api_af_xml.security import UserValidator
 from api_af_xml.nfdata import DbData
 from api_af_xml.models import User, Token, TokenData
+from api_af_xml.validate_af import AfValidation
+from api_af_xml.sesuitePAG import SeSuiteQuery
 from fastapi import FastAPI, status, Depends, HTTPException
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -13,12 +15,14 @@ app = FastAPI()
 
 # Dependência OAuth2 (Bearer Token)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
 # Dependencia validacao de usuario no banco de dados
 validator = UserValidator()
-# Dependencia da clase que faz a query dos dados no banco
+# Dependencia da classe que faz a query dos dados no banco
 get_data = DbData()
-
+# Dependencia da classe para associação verificar qual af esta relacionada ao xml
+af_relacionada = AfValidation()
+# Dependencia da classe para associação PAG x af
+pag_relacionado = SeSuiteQuery()
 
 # Faz a verificação se o usuario esta com o token para acesso aos endpoints
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
@@ -56,7 +60,6 @@ async def read_users_me(
     return JSONResponse(content={"current user": current_user})
 
 
-
 @app.post("/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user = validator.authenticate_user(form_data.username, form_data.password)
@@ -74,14 +77,31 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
-
-@app.get("/getData")
-def get_nfe(token: Annotated[str, Depends(get_current_user)]):
-    data = get_data.get_data_nf()
-    headers = {"Content-Type": "application/json; charset=utf-8"}
-    return JSONResponse(content=data, headers=headers, status_code=200)
-
-
 @app.get("/", include_in_schema=False)
 def redirect():
     return RedirectResponse(url="/docs")
+
+
+@app.get("/AfAssociadaPAG")
+def af_associada_pag(token: Annotated[str, Depends(get_current_user)], num_PAG):
+    data = pag_relacionado.find_pag_associated(num_PAG)
+    return JSONResponse(content=data, status_code=200)
+
+
+@app.get("/ChaveAcessoAssociadaAf")
+def chave_associada_af(token: Annotated[str, Depends(get_current_user)], num_AF):
+    data = af_relacionada.find_associated_access_key(num_AF)
+    return JSONResponse(content=data, status_code=200)
+
+
+@app.get("/AfAssociadaChaveAcesso")
+def af_associada_chave(token: Annotated[str, Depends(get_current_user)], chave_acesso):
+    data = af_relacionada.find_associated_aff(chave_acesso)
+    return JSONResponse(content=data, status_code=200)
+
+
+@app.get("/DadosNFE")
+def get_nfe(token: Annotated[str, Depends(get_current_user)], chave_acesso):
+    data = get_data.get_data_nf(chave_acesso)
+    headers = {"Content-Type": "application/json; charset=utf-8"}
+    return JSONResponse(content=data, headers=headers, status_code=200)

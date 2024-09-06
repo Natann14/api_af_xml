@@ -9,10 +9,8 @@ class ExecuteSqlServer():
     def execute_sql_query_security(self, sql):
         conexao = pyodbc.connect(self.dados_conexao)
         cursor = conexao.cursor()
-        
-        SQL_INSTRUCION = f""" {sql} """
 
-        cursor.execute(SQL_INSTRUCION)
+        cursor.execute(sql)
         result = cursor.fetchall()
         conexao.close()
         return result
@@ -20,10 +18,8 @@ class ExecuteSqlServer():
     def execute_sql_query_data(self, sql):
         conexao = pyodbc.connect(self.dados_conexao)
         cursor = conexao.cursor()
-
-        SQL_INSTRUCION = f""" {sql} """
-
-        cursor.execute(SQL_INSTRUCION)
+        
+        cursor.execute(sql)
         result = cursor.fetchall()
         conexao.close()
 
