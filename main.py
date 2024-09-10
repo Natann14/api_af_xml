@@ -53,11 +53,11 @@ async def get_current_active_user(current_user: Annotated[str, Depends(get_curre
     return current_user
 
 
-@app.get("/users/me/", response_model=User)
-async def read_users_me(
-    current_user: Annotated[str, Depends(get_current_active_user)],
-):
-    return JSONResponse(content={"current user": current_user})
+# @app.get("/users/me/", response_model=User)
+# async def read_users_me(
+#     current_user: Annotated[str, Depends(get_current_active_user)],
+# ):
+#     return JSONResponse(content={"current user": current_user})
 
 
 @app.post("/token", response_model=Token)
